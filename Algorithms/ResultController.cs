@@ -38,6 +38,19 @@ namespace Algorithms.Result
 
             List<int> result = Result.PermutationEquation(p);
         }
+
+        public static void JumpingOnTheClouds()
+        {
+            string[] nk = Console.ReadLine().Split(' ');
+
+            int n = Convert.ToInt32(nk[0]);
+
+            int k = Convert.ToInt32(nk[1]);
+
+            int[] c = Array.ConvertAll(Console.ReadLine().Split(' '), cTemp => Convert.ToInt32(cTemp))
+            ;
+            int result = jumpingOnClouds(c, k);
+        }
     }
 
 }

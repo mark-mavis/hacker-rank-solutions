@@ -1,4 +1,7 @@
-﻿namespace Algorithms.Result
+﻿using System.Net.Http.Headers;
+using System.Reflection.Metadata.Ecma335;
+
+namespace Algorithms.Result
 {
     public class Result
     {
@@ -22,12 +25,18 @@
 
         public static List<int> PermutationEquation(List<int> p)
         {
-            int[] permutations = new int[p.Count];
-            for(int i = 0; i < p.Count; i++)
+            Dictionary<int , int> valueIndexPairs = new Dictionary<int, int>(p.Count);
+            for(int x = 0; x < p.Count; x++)
             {
-                permutations[i] = p[p[i]];
+                valueIndexPairs.Add(p[x], x);
             }
-            return permutations.ToList<int>();
+            int[] indexValue = new int[p.Count];
+            for ( int x = 1; x <= p.Count; x++)
+            {
+                indexValue[x-1] = valueIndexPairs[valueIndexPairs[x] + 1] +1;
+            }
+
+            return indexValue.ToList();
         }
 
     }
