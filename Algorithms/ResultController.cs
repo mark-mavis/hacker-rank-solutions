@@ -49,7 +49,7 @@ namespace Algorithms.Result
 
             int[] c = Array.ConvertAll(Console.ReadLine().Split(' '), cTemp => Convert.ToInt32(cTemp))
             ;
-            int result = jumpingOnClouds(c, k);
+            int result = Result.JumpingOnClouds(c, k);
         }
     }
 

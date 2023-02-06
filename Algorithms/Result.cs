@@ -38,9 +38,9 @@ namespace Algorithms.Result
             return indexValue.ToList();
         }
 
-        public static int JumpingOnTheClouds(int[] c, int k)
+        public static int JumpingOnClouds(int[] c, int k)
         {
-            return 1;
+            return 10;
         }
     }
 }
