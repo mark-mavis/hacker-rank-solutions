@@ -1,13 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Algorithms.Result;
 
 namespace Algorithms
 {
-    class ImplementationEasy
+    public class ListCreator
+    {
+        public static List<int> ReturnList(int size)
+        {
+            List<int> list = new List<int>();
+            Random rnd = new Random();
+
+            for(int i = 0; i < size; i++)
+            {
+                list.Add(rnd.Next());
+            }
+
+            return list;
+        }
+    }
+    public class ImplementationEasy
     {
         public static int BetweenTwoSets(List<int> a, List<int> b)
         {
@@ -414,37 +426,106 @@ namespace Algorithms
             // Returns - Number of days in the range
 
         }
+        public static int ViralAdvertising(int n)
+        {
+            // n = number of days
+            // recipients/2 * 3 = Likedshares
+            // i = 0, 
+            // i = 1, 5/2 = 2*3 = 6
+            // i = 2, 6/2 = 3*3 = 9
+            // i = 3, 9/2 = 4*3 = 12
+            // i = 4, 12/2 = 6*3 = 18
+            // i = 5, 18/2 = 9*3 = 24
+            // i = 6, 24/2 = 12*3 = 36
+            // i = 7, 36/2 = 18*3 = 54
+            // i = 8, 54/2 = 27*3 = 81
+
+            int currRecipients = 5;
+            int cumulativeLikes = 0;
+
+            for(int i = 1; i <= n; i++)
+            {
+                int likes = currRecipients / 2;
+                currRecipients = likes*3;
+                cumulativeLikes += likes;
+            }
+            return cumulativeLikes;  
+        }
+        public static int SaveThePrisoner(int n, int m, int s)
+        {
+            // n - prisoners
+            // m - pieces of candy
+            // s - starting chair
+            if (PrisonerInputValidatation(n, m, s))
+            {
+                int prisonerSeat = m % n;
+                if((prisonerSeat + (s - 1)) % n == 0) return n;
+                else return (prisonerSeat + (s - 1)) % n;
+            }
+            return 0;
+        }
+        private static bool PrisonerInputValidatation(int n, int m, int s)
+        {
+            return (n>=1 && n<=10000000000) && (m >= 1 && m <= 10000000000) && (s>= 1 && n >= s);
+        }
+        public static List<int> CircularArrayRotation(List<int> a, int k, List<int> queries)
+        {
+            int[] arr = a.ToArray();
+
+            int temp, prev;
+            for (int i = 0; i < k; i++)
+            {
+                prev = a[a.Count - 1]; //Copy the element at the end of the arrary
+                for (int j = 0; j < a.Count; j++)
+                {
+                    temp = a[j];    //Copy the element at J in the array to Temp
+                    a[j] = prev;    //assign the copied end value
+                    prev = temp;    //assign the temp o the previous
+                }
+            }
+
+            List<int> ints = new List<int>();
+            foreach(int i in queries)
+            {
+                ints.Add(a[i]);
+            }
+           
+            return ints;
+        }
 
     }
 
-    class ImplementationEasyManager
+
+    class ImplementationEasyController
     {
         public static void Run()
         {
             //ImplementationEasy.DrawingBook(6, 2);
 
             //ImplementationEasy.GradingStudents(new List<int>() { 73, 67, 38, 33 });
-            ////Implementation.CountApplesAndOranges()
+            
+            //Implementation.CountApplesAndOranges()
+            
             //ImplementationEasy.NumberLineJumps(1571, 4240, 9023, 4234);
 
             //ImplementationEasy.BetweenTwoSets(new List<int>() { 2, 4 }, new List<int>() { 16, 32, 96 });
-            
+
             //ImplementationEasy.BreakingTheRecords(new List<int>() { 10, 5, 20, 20, 4, 5, 2, 25, 1 });
-            
+
             //ImplementationEasy.SubarrayDivision(new List<int>() { 2, 2, 1, 3, 2 }, 4, 2);
             //ImplementationEasy.SubarrayDivision(new List<int>() { 4, 1 }, 4, 1);
-            
+
             //ImplementationEasy.DivisibleSumPairs(6, 3, new List<int>() { 1, 3, 2, 6, 1, 2 });
-            
+
             //ImplementationEasy.MigratoryBirds(new List<int>() { 1, 1, 2, 2, 3 });
             //ImplementationEasy.MigratoryBirds(new List<int>() { 1, 4, 4, 4, 5, 3 });
 
             //ImplementationEasy.DayOfTheProgrammer(new List<int>() { 1, 1, 2, 2, 4, 4, 5, 5, 5 });
             //ImplementationEasy.DayOfTheProgrammer(new List<int>() { 4, 6, 5, 3, 3, 1 });
-            
+
             //ImplementationEasy.BillDivision(new List<int>() { 3, 10, 2, 9 }, 1, 12);
             //ImplementationEasy.BillDivision(new List<int>() { 3, 10, 2, 9 }, 1, 7);
-            
+
             //ImplementationEasy.SalesByMatch(new List<int>() { 1, 2, 1, 2, 1, 3, 2 }.Count, new List<int>() { 1, 2, 1, 2, 1, 3, 2 });
             //ImplementationEasy.CountingValleys(8, "UDDDUDUU");
 
@@ -479,7 +560,17 @@ namespace Algorithms
             //ImplementationEasy.UtopianTree(2);
             //ImplementationEasy.UtopianTree(10);
 
-            ImplementationEasy.BeautifulDays(123, 456789, 189);
+            //ImplementationEasy.BeautifulDays(123, 456789, 189);
+
+            //Console.WriteLine(ImplementationEasy.ViralAdvertising(5));
+            //Console.WriteLine(ImplementationEasy.SaveThePrisoner(5, 2, 1));
+            //Console.WriteLine(ImplementationEasy.SaveThePrisoner(352926151, 380324688, 94730870));
+            //Console.WriteLine(ImplementationEasy.CircularArrayRotation(new List<int>() { 3, 4, 5}, 2, new List<int>() { 1, 2}));
+
+
+
+            Console.ReadLine();
+            
         }
     }
 }
