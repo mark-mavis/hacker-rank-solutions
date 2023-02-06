@@ -22,7 +22,6 @@ namespace Algorithms.Result
             }
             return qs.ToList();
         }
-
         public static List<int> PermutationEquation(List<int> p)
         {
             Dictionary<int , int> valueIndexPairs = new Dictionary<int, int>(p.Count);
@@ -39,5 +38,9 @@ namespace Algorithms.Result
             return indexValue.ToList();
         }
 
+        public static int JumpingOnTheClouds(int[] c, int k)
+        {
+            return 1;
+        }
     }
 }
