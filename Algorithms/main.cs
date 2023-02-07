@@ -7,7 +7,8 @@
             //ImplementationEasyManager.Run();
 
             //ResultController.CircularArrayRotation();
-            ResultController.SequenceEquation();
+            //ResultController.SequenceEquation();
+            ResultController.JumpingOnTheClouds();
         }
     }
 }

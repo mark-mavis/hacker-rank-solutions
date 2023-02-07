@@ -34,13 +34,36 @@ namespace Algorithms.Result
             {
                 indexValue[x-1] = valueIndexPairs[valueIndexPairs[x] + 1] +1;
             }
-
             return indexValue.ToList();
+        }
+        internal static int CalculateIndex(int i, int n, int k)
+        {
+            return (i + k) % n;
         }
 
         public static int JumpingOnClouds(int[] c, int k)
         {
-            return 10;
+            int n = c.Length;
+            int energy = 100;
+            Queue<int> q = new Queue<int>();
+            for(int i = 0; i < n;)
+            {
+                i = CalculateIndex(i, n, k);
+                Console.WriteLine("Landing on index: " + i);
+
+                if (c[i] == 1)
+                {
+                    energy -= 3;
+                }
+                else
+                {
+                    energy -= 1;
+                }
+                if(i == 0) break;
+            }
+            return c.Length;
         }
+
+        
     }
 }
