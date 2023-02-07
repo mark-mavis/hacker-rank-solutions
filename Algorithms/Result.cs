@@ -36,34 +36,21 @@ namespace Algorithms.Result
             }
             return indexValue.ToList();
         }
-        internal static int CalculateIndex(int i, int n, int k)
-        {
-            return (i + k) % n;
-        }
-
         public static int JumpingOnClouds(int[] c, int k)
         {
             int n = c.Length;
             int energy = 100;
-            Queue<int> q = new Queue<int>();
             for(int i = 0; i < n;)
             {
-                i = CalculateIndex(i, n, k);
-                Console.WriteLine("Landing on index: " + i);
+                i = (i + k) % n;
+                if (c[i] == 1){ energy -= 3; }
+                else{ energy -= 1; }
 
-                if (c[i] == 1)
-                {
-                    energy -= 3;
-                }
-                else
-                {
-                    energy -= 1;
-                }
                 if(i == 0) break;
             }
-            return c.Length;
+            return energy;
         }
 
-        
+
     }
 }

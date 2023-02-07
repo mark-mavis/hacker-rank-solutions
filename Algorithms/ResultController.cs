@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,6 @@ namespace Algorithms.Result
 
             List<int> result = Result.PermutationEquation(p);
         }
-
         public static void JumpingOnTheClouds()
         {
             string[] nk = Console.ReadLine().Split(' ');
