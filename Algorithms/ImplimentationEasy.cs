@@ -21,76 +21,9 @@ namespace Algorithms
     }
     public class ImplementationEasy
     {
-        public static int BetweenTwoSets(List<int> a, List<int> b)
-        {
-            int minVal = a.Max();
-            int maxVal = b.Min();
-
-            List<int> possibleN = new List<int>();
-
-            //Handling Possible Int Range
-            for (int i = minVal; i <= maxVal; i++)
-            {
-                bool a_arr = true;
-                bool b_arr = true;
-
-                for (int arr_a = 0; arr_a < a.Count; arr_a++)
-                {
-                    if (i % a[arr_a] != 0) a_arr = false;
-                }
-
-                for (int arr_b = 0; arr_b < b.Count; arr_b++)
-                {
-                    if (b[arr_b] % i != 0) a_arr = false;
-                }
-
-                if (a_arr && b_arr) possibleN.Add(i);
-            }
-            return possibleN.Count;
-        }
-        public static void CountApplesAndOranges(int s, int t, int a, int b, List<int> apples, List<int> oranges)
-        {
-            int appleCount = 0;
-            int orangeCount = 0;
-            for (int i = 0; i < apples.Count; i++)
-            {
-                if (apples[i] >= -100000 && apples[i] <= 100000)
-                {
-                    int distance = a + apples[i];
-                    if (distance >= s && distance <= t) appleCount++;
-                }
-            }
-            for (int i = 0; i < oranges.Count; i++)
-            {
-                if (oranges[i] >= -100000 && oranges[i] <= 100000)
-                {
-                    int distance = b + oranges[i];
-                    if (distance >= s && distance <= t) orangeCount++;
-                }
-            }
-            Console.WriteLine(appleCount);
-            Console.WriteLine(orangeCount);
-        }
-        public static int DayOfTheProgrammer(List<int> a)
-        {
-
-            int[] arr = a.ToArray();
-            int max = 0;
-            for (int i = 0; i < arr.Length; i++)
-            {
-                int temp = 0;
-                Array.Sort(arr);    //The important part is the pre-sort of the array
-                                    //  This makes it easier to count the max number of ints in 
-                                    //  a row that are 1 number apart 
-                for (int j = i; j < arr.Length; j++)
-                {
-                    if (Math.Abs(arr[i] - arr[j]) <= 1) temp++;
-                    else break;
-                }
-                if (temp > max) max = temp;
-            }
-            return max;
-        }
+        
+        
+        
         public static int DrawingBook(int n, int p)
         {
             return Math.Min((n / 2 - p / 2), (p / 2));
