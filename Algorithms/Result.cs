@@ -278,6 +278,24 @@ namespace Algorithms.Result
             return squareCount;
         }
 
+        public static int NonDivisibleSubset(int k, List<int> s)
+        {
+            List<int> temp = new List<int>();
+            Dictionary<int, int> map = new Dictionary<int, int>();
+            for (int i = 0; i < s.Count; i++)
+            {
+                int val = s[i]%k;
+                if (!map.ContainsKey(val))
+                {
+                    map.Add(val, 1);
+                }
+                else
+                {
+                    map[val] += 1;
+                }
+            }
+            return 1;
+        }
 
     }
 }

@@ -171,6 +171,18 @@ namespace Algorithms.Result
                 int result = Result.SherlockAndSquares(a, b);
             }
         }
+        public static void NonDivisibleSubset()
+        {
+            string[] firstMultipleInput = Console.ReadLine().TrimEnd().Split(' ');
+
+            int n = Convert.ToInt32(firstMultipleInput[0]);
+
+            int k = Convert.ToInt32(firstMultipleInput[1]);
+
+            List<int> s = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(sTemp => Convert.ToInt32(sTemp)).ToList();
+
+            int result = Result.NonDivisibleSubset(k, s);
+        }
     }
 
 }
