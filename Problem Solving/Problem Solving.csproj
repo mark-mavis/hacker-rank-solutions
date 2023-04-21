@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Problem_Solving</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Algorithms\Graphy Theory\" />
+    <Folder Include="Algorithms\Search\" />
+    <Folder Include="Algorithms\Sorting\" />
+    <Folder Include="Algorithms\Strings\" />
+    <Folder Include="Data Structures\Linked Lists\" />
+    <Folder Include="Data Structures\Balanced Trees\" />
+    <Folder Include="Data Structures\Heap\" />
+    <Folder Include="Data Structures\Queues\" />
+    <Folder Include="Data Structures\Stacks\" />
+    <Folder Include="Data Structures\Trees\" />
+  </ItemGroup>
+
+</Project>
