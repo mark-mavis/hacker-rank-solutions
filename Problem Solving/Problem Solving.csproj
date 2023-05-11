@@ -12,7 +12,6 @@
     <Folder Include="Algorithms\Graphy Theory\" />
     <Folder Include="Algorithms\Search\" />
     <Folder Include="Algorithms\Sorting\" />
-    <Folder Include="Algorithms\Strings\" />
     <Folder Include="Data Structures\Linked Lists\" />
     <Folder Include="Data Structures\Balanced Trees\" />
     <Folder Include="Data Structures\Heap\" />

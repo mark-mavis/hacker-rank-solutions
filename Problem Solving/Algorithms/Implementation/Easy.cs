@@ -1,4 +1,20 @@
 ﻿
+using System.IO;
+using System.Security;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+using System.Security.Cryptography.X509Certificates;
+
 namespace Algorithms;
 
 class Input
@@ -824,6 +840,340 @@ public partial class Implementation
         return gameCount;
 
     }
+    public static int ChocolateFeast(int cash, int costOfChocolate, int wrapperTradeValue)
+    {
+        // N = dollars
+        // C = dollars per chocolate
+        // M = wrappers per chocolate
+        // W = wrappers per dollar
+ 
+        int wrapper = cash/costOfChocolate;
+        int chocolate = wrapper;
+        while(wrapper >= wrapperTradeValue)
+        {
+            int extra_chocolate = wrapper/wrapperTradeValue;
+            wrapper = extra_chocolate + wrapper % wrapperTradeValue;
+            chocolate += extra_chocolate;
+        }
+
+        return chocolate;
+    }
+    public static List<int> ServiceLane(int n, List<List<int>> cases, List<int> width)
+    {
+        int[] segwidths = new int[cases.Count];
+        int counter = 0;
+        foreach(List<int> seg in cases)
+        {
+            List<int> newlist = width.GetRange(seg[0], (seg.Last()-seg.First())+1);
+            segwidths[counter] = newlist.Min();
+            counter++;
+        }
+        return segwidths.ToList();
+    }
+    public static int Workbook(int n, int k, List<int> arr)
+    {
+        // n - chapters - 1 to n
+        // i - chapterCounter - arr[i]
+        // k - problems per page;
+        // Only last page can hold fewer then k problems
+        // Chapters start on new pages/Not multiple chapters on same page
+        // Page number index starts at 1
+
+        int specialProblems = 0;
+        int page = 0;
+        for(int chapter = 1; chapter <= arr.Count; chapter++)
+        {
+            Console.WriteLine($"Chapter {chapter}");
+            page++;
+            Console.WriteLine($"Page {page}");
+
+            for (int problem = 1; problem <= arr[chapter - 1]; problem++)
+            {
+                Console.WriteLine($"Problem {problem}");
+                if (problem == page) specialProblems++;
+                if (problem%k == 0 && problem != arr[chapter-1]){
+                    page++;
+                    Console.WriteLine($"Page {page}");
+                }
+            }
+            Console.WriteLine($"Special Problems Found: {specialProblems}");
+        }
+        return specialProblems;
+    }
+    public static int FlatlandSpaceStations(int n, int[] c)
+    {
+        // First line  - n = Number of Cities m = indicies of Cities
+        // Second Line - c[m] - space-seperated integers 
+        /*
+        int maxDistance = 0;
+        if(n == c.Length) return 0;
+        int count = 0;
+        for(int i = c[count]; i < c.Length; count++)
+        {
+            for(int j = i; j < n; j++)
+            {
+                if(i == j) continue;
+                if (c[i+1] == j)
+                {
+                    int distance = (j - c[i])/2;
+                    if (maxDistance < distance) maxDistance = distance;
+                }
+            }
+        }
+        
+        
+        if (n == c.Length) return 0;
+        int maxDist = 0;
+        for(int city = 0; city < c.Length; city++)
+        {
+            for(int nextCity = city+1; nextCity < c.Length; nextCity++)
+            {
+                int currentDist;                
+                if (Math.Abs(((decimal)c[nextCity] - (decimal)c[city]) / 2.0m) % 2.0m != 0.0m){
+                    currentDist = (int)Math.Ceiling(Math.Abs((decimal)(c[nextCity] - (decimal)c[city]) / 2.0m));
+                }
+                else
+                {
+                    currentDist = Math.Abs((c[nextCity] - c[city]) / 2);
+                }
+                if (currentDist > maxDist) maxDist = currentDist;
+                break;
+            }
+        }
+        */
+
+
+        if (n == c.Length)
+            return 0;
+        int count = 0, max = 0;
+        bool first = true;
+        for (int i = 0; i < n; i++)
+        {
+            if (!c.Contains(i))
+            {
+                count++;
+            }
+            else
+            {
+                first = false;
+                count = count % 2 == 0 ? count / 2 : (count / 2) + 1;
+                max = max < count ? count : max;
+                count = 0;
+            }
+            if (first)
+                max = max < count ? count : max;
+        }
+        max = max < count ? count : max;
+
+        return max;
+    }
+    public static string FairRations(List<int> B)
+    {
+        int loafsHanded = 0;
+        for(int i = 0; i < B.Count-1; i++)
+        {
+            if (B[i]%2 != 0)
+            {
+                B[i]++;
+                loafsHanded++;
+                B[i+1]++;
+                loafsHanded++;
+            }
+        }
+        if(B.Sum()%2 != 0)
+        {
+            return "NO";
+        }
+        else
+        {
+            return loafsHanded.ToString();
+        }
+        
+    }
+    public static List<string> CavityMap(List<string> grid)
+    {
+        int row_dim = grid.Count;
+        int col_dim = grid.ElementAt(0).Length;
+
+        for(int row = 0; row < row_dim; row++)
+        {
+            StringBuilder str = new StringBuilder(grid[row]);
+            for (int col = 0; col < col_dim; col++)
+            {
+                
+                if (row == 0 || row == col_dim - 1 || col == 0 || col == col_dim - 1)
+                {
+                    continue;
+                }
+
+                bool upper = grid[row - 1].ElementAt(col) < str[col] && grid[row - 1].ElementAt(col) != 'X' ? true : false;
+                bool lower = grid[row + 1].ElementAt(col) < str[col] && grid[row + 1].ElementAt(col)  != 'X' ? true : false;
+                bool left = grid[row].ElementAt(col-1) < str[col] && grid[row].ElementAt(col - 1)  != 'X' ? true : false;
+                bool right = grid[row].ElementAt(col+1) < str[col] && grid[row].ElementAt(col + 1) != 'X' ? true : false;
+
+                if(upper && lower && left && right)
+                {
+                    str[col] = 'X';
+                    
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+            grid[row] = str.ToString();
+        }
+
+        return grid;
+    }
+    public static List<int> ManasaAndStones(int n, int a, int b)
+    {
+        List<int> temp = new List<int>();
+        
+        int top = n-1;
+        
+        for(int i = 0; i < n; i++)
+        {
+            //Console.WriteLine($"i: {i} top: {top}");
+            int sum = (a*i) + (b*top);
+            //Console.WriteLine($"Sum: {sum}");
+            if (!temp.Contains(sum))
+            {
+                temp.Add(sum);
+            }
+            top--;            
+        }
+        temp.Sort();
+
+        return temp;
+    }
+    public static string TheGridSearch(List<string> G, List<string> P)
+    {
+        /*
+        bool CheckPatternIsPresent(ref List<string> searchGrid, (int, int) beginningSearchPoint, ref List<string> patternGrid)
+        {
+            int searchGrid_row_offset = beginningSearchPoint.Item1;
+            int searchGrid_col_offset = beginningSearchPoint.Item2;
+            
+            for(int patternGrid_RowIt = 0; patternGrid_RowIt < patternGrid.Count; patternGrid_RowIt++)
+            {
+                for(int patternGrid_ColIt = 0; patternGrid_ColIt < patternGrid[patternGrid_RowIt].Length; patternGrid_ColIt++)
+                {
+                    if (searchGrid[patternGrid_RowIt+searchGrid_row_offset].ElementAt(patternGrid_ColIt+searchGrid_col_offset) != patternGrid[patternGrid_RowIt].ElementAt(patternGrid_ColIt))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        for(int grid_row = 0; grid_row <= G.Count - P.Count; grid_row++)
+        {
+            //StringBuilder sb = new StringBuilder(G[row]);
+            for(int grid_col = 0; grid_col <= G[grid_row].Length - P[0].Length; grid_col++)
+            {
+                Console.WriteLine($"Checking Location: Grid (Row,Col): {grid_row}, {grid_col} = {G[grid_row].ElementAt(grid_col)} Against Pattern Location: 0, 0 = {P[0].ElementAt(0)}");
+                
+                if (G[grid_row].ElementAt(grid_col) == P[0].ElementAt(0))
+                {
+                    if(CheckPatternIsPresent(ref G, (grid_row, grid_col), ref P))
+                    {
+                        return "YES";
+                    }
+                }
+            }
+        }
+        return "NO";
+        */
+
+        return "NO";
+    }
+    public static int BeautifulTriplets(int d, List<int> arr)
+    {
+        int beautifultriplecount = 0;
+        for(int i = 0; i < arr.Count-2 ; i++)
+        {
+            for(int j = i+1; j < arr.Count-1 ; j++)
+            {
+                for(int k = j+1; k < arr.Count ; k++)
+                {
+                    if (arr[j] - arr[i] != d) {
+                        break;
+                    }
+                    if (arr[k] - arr[j] != d)
+                    {
+                        continue;
+                    }
+                    Console.WriteLine($"Adding to count: {i},{j},{k}");
+                    beautifultriplecount++;
+                }
+            }
+        }
+        Console.WriteLine(beautifultriplecount);
+        return beautifultriplecount;
+    }
+    public static string HappyLadyBugs(string b)
+    {
+        int n = b.Length;
+        bool happy = true;
+        if (b.Contains('_'))
+        {
+            int[] counts = new int[26];
+            foreach (char c in b)
+            {
+                if (c != '_') counts[(int)(c - 'A')]++;
+            }
+            foreach (int c in counts)
+            {
+                if (c == 1)
+                {
+                    happy = false;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < n; i++)
+            {
+                if (b[i] != '_')
+                {
+                    bool friendleft = i > 0 && b[i - 1] == b[i];
+                    bool friendright = i < n - 1 && b[i + 1] == b[i];
+                    if (!friendleft && !friendright)
+                    {
+                        happy = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return happy ? "YES" : "NO";
+    }
+    public static long StrangeCounter(long t)
+    {
+
+        long value_start_count;
+        long current_first_time_count = 1;
+        long increment = 3;
+        long previous_val = 1;
+        long multiplyer = 1;
+        long idx_offset;
+        
+        while(previous_val + (multiplyer * increment) <= t)
+        {
+            current_first_time_count = previous_val + (multiplyer*increment);
+            //Console.WriteLine(current_first_time_count);
+            previous_val = current_first_time_count;
+            multiplyer *= 2;
+        }
+
+        value_start_count = current_first_time_count + 2;
+        idx_offset = (t - current_first_time_count);
+        return value_start_count - idx_offset;
+    }
 
 }
 
@@ -865,8 +1215,19 @@ class ImplementationEasy_Client
         //ACMTeam();
         //TaumAndBday();
         //ModifiedKaprekarNumbers();
+        //BeautifulTriplets();
         //MinimumDistances();
         //HalloweenSale();
+        //ChocolateFeast();
+        //ServiceLane();
+        //Workbook();
+        //FlatlandSpaceStations();
+        //FairRations();
+        //CavityMap();
+        //ManasaAndStones();
+        StrangeCounter();
+        //TheGridSearch();
+
 
     }
 
@@ -1152,11 +1513,6 @@ class ImplementationEasy_Client
 
             int result = Implementation.SaveThePrisoner(n, m, s);
         }
-
-
-
-
-
 }
     public static void CircularArrayRotation()
     {
@@ -1326,6 +1682,18 @@ class ImplementationEasy_Client
 
         Implementation.ModifiedKaprekarNumbers(p, q);
     }
+    public static void BeautifulTriplets()
+    {
+        string[] firstMultipleInput = Input.ReadLine().TrimEnd().Split(' ');
+
+        int n = Convert.ToInt32(firstMultipleInput[0]);
+
+        int d = Convert.ToInt32(firstMultipleInput[1]);
+
+        List<int> arr = Input.ReadLine().TrimEnd().Split(' ').ToList().Select(arrTemp => Convert.ToInt32(arrTemp)).ToList();
+
+        int result = Implementation.BeautifulTriplets(d, arr);
+    }
     public static void MinimumDistances()
     {
         int n = Convert.ToInt32(Input.ReadLine().Trim());
@@ -1350,4 +1718,163 @@ class ImplementationEasy_Client
         int answer = Implementation.HalloweenSale(p, d, m, s);
     }
 
+    public static void ChocolateFeast()
+    {
+        int t = Convert.ToInt32(Console.ReadLine().Trim());
+
+        for (int tItr = 0; tItr < t; tItr++)
+        {
+            string[] firstMultipleInput = Console.ReadLine().TrimEnd().Split(' ');
+
+            int n = Convert.ToInt32(firstMultipleInput[0]);
+
+            int c = Convert.ToInt32(firstMultipleInput[1]);
+
+            int m = Convert.ToInt32(firstMultipleInput[2]);
+
+            int result = Implementation.ChocolateFeast(n, c, m);
+
+            Console.WriteLine(result);
+        }
+    }
+    public static void ServiceLane()
+    {
+        string[] firstMultipleInput = Input.ReadLine().TrimEnd().Split(' ');
+
+        int n = Convert.ToInt32(firstMultipleInput[0]);
+
+        int t = Convert.ToInt32(firstMultipleInput[1]);
+
+        List<int> width = Input.ReadLine().TrimEnd().Split(' ').ToList().Select(widthTemp => Convert.ToInt32(widthTemp)).ToList();
+
+        List<List<int>> cases = new List<List<int>>();
+
+        for (int i = 0; i < t; i++)
+        {
+            cases.Add(Input.ReadLine().TrimEnd().Split(' ').ToList().Select(casesTemp => Convert.ToInt32(casesTemp)).ToList());
+        }
+
+        List<int> result = Implementation.ServiceLane(n, cases, width);
+    }
+    public static void Workbook()
+    {
+        string[] firstMultipleInput = Input.ReadLine().TrimEnd().Split(' ');
+
+        int n = Convert.ToInt32(firstMultipleInput[0]);
+
+        int k = Convert.ToInt32(firstMultipleInput[1]);
+
+        List<int> arr = Input.ReadLine().TrimEnd().Split(' ').ToList().Select(arrTemp => Convert.ToInt32(arrTemp)).ToList();
+
+        int result = Implementation.Workbook(n, k, arr);
+    }
+
+    public static void FlatlandSpaceStations()
+    {
+        string[] nm = Input.ReadLine().Split(' ');
+
+        int n = Convert.ToInt32(nm[0]);
+
+        int m = Convert.ToInt32(nm[1]);
+
+        int[] c = Array.ConvertAll(Input.ReadLine().Split(' '), cTemp => Convert.ToInt32(cTemp))
+        ;
+        int result = Implementation.FlatlandSpaceStations(n, c);
+    }
+
+    public static void FairRations()
+    {
+        int N = Convert.ToInt32(Input.ReadLine().Trim());
+
+        List<int> B = Input.ReadLine().TrimEnd().Split(' ').ToList().Select(BTemp => Convert.ToInt32(BTemp)).ToList();
+
+        string result = Implementation.FairRations(B);
+    }
+
+    public static void CavityMap()
+    {
+        int n = Convert.ToInt32(Input.ReadLine().Trim());
+
+        List<string> grid = new List<string>();
+
+        for (int i = 0; i < n; i++)
+        {
+            string gridItem = Input.ReadLine();
+            grid.Add(gridItem);
+        }
+
+        List<string> result = Implementation.CavityMap(grid);
+
+        Console.WriteLine(String.Join("\n", result));
+
+    }
+    public static void ManasaAndStones()
+    {
+        int T = Convert.ToInt32(Input.ReadLine().Trim());
+
+        for (int TItr = 0; TItr < T; TItr++)
+        {
+            int n = Convert.ToInt32(Input.ReadLine().Trim());
+
+            int a = Convert.ToInt32(Input.ReadLine().Trim());
+
+            int b = Convert.ToInt32(Input.ReadLine().Trim());
+
+            List<int> result = Implementation.ManasaAndStones(n, a, b);
+
+            Console.WriteLine(String.Join(" ", result));
+        }
+
+    }
+
+    public static void TheGridSearch()
+    {
+        int t = Convert.ToInt32(Input.ReadLine().Trim());
+
+        for (int tItr = 0; tItr < t; tItr++)
+        {
+            string[] firstMultipleInput = Input.ReadLine().TrimEnd().Split(' ');
+
+            int R = Convert.ToInt32(firstMultipleInput[0]);
+
+            int C = Convert.ToInt32(firstMultipleInput[1]);
+
+            List<string> G = new List<string>();
+
+            for (int i = 0; i < R; i++)
+            {
+                string GItem = Input.ReadLine();
+                G.Add(GItem);
+            }
+
+            string[] secondMultipleInput = Input.ReadLine().TrimEnd().Split(' ');
+
+            int r = Convert.ToInt32(secondMultipleInput[0]);
+
+            int c = Convert.ToInt32(secondMultipleInput[1]);
+
+            List<string> P = new List<string>();
+
+            for (int i = 0; i < r; i++)
+            {
+                string PItem = Input.ReadLine();
+                P.Add(PItem);
+            }
+
+            string result = Implementation.TheGridSearch(G, P);
+            Console.WriteLine(result);
+        }
+    }
+    
+    public static void HappyLadyBugs()
+    {
+
+    }
+    public static void StrangeCounter()
+    {
+        long t = Convert.ToInt64(Input.ReadLine().Trim());
+
+        long answer = Implementation.StrangeCounter(t);
+        Console.WriteLine(answer);
+    }
 }
