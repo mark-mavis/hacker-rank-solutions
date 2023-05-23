@@ -13,25 +13,9 @@ using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Text;
 using System;
-using System.Security.Cryptography.X509Certificates;
+using ConsoleInput;
 
 namespace Algorithms;
-
-class Input
-{
-    public static string ReadLine()
-    {
-        string? user_input = Console.ReadLine();
-        if (!String.IsNullOrEmpty(user_input))
-        {
-            return user_input;
-        }
-        else
-        {
-            throw new ArgumentNullException("Please enter an input");
-        }
-    }
-}
 
 public partial class Implementation
 {
@@ -1173,6 +1157,36 @@ public partial class Implementation
         value_start_count = current_first_time_count + 2;
         idx_offset = (t - current_first_time_count);
         return value_start_count - idx_offset;
+
+
+        /*
+         * First Iteration
+          
+        long initialnumber = 3;
+        long power = 2;
+        long time_count = 1;
+
+        for (long sub_interval_It = initialnumber; sub_interval_It > 0; )
+        {
+            //Console.WriteLine($"Time: {time_count} Value: {sub_interval_It}");
+            if (time_count == t) return sub_interval_It;
+
+            if (sub_interval_It == 1){
+                time_count++;
+                sub_interval_It = power*initialnumber;
+
+                power *= 2;
+                continue;
+            }
+            
+            sub_interval_It--;
+            time_count++;
+        }
+        return 0;
+         
+         * 
+         * 
+         */
     }
 
 }
@@ -1720,11 +1734,11 @@ class ImplementationEasy_Client
 
     public static void ChocolateFeast()
     {
-        int t = Convert.ToInt32(Console.ReadLine().Trim());
+        int t = Convert.ToInt32(Input.ReadLine().Trim());
 
         for (int tItr = 0; tItr < t; tItr++)
         {
-            string[] firstMultipleInput = Console.ReadLine().TrimEnd().Split(' ');
+            string[] firstMultipleInput = Input.ReadLine().TrimEnd().Split(' ');
 
             int n = Convert.ToInt32(firstMultipleInput[0]);
 

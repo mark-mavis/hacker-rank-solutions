@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
+using ConsoleInput;
 
 namespace Algorithms;
 public class ListEqualityComparer<T> : IEqualityComparer<List<T>>

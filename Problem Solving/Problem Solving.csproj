@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Algorithms\Graphy Theory\" />
     <Folder Include="Algorithms\Search\" />
     <Folder Include="Algorithms\Sorting\" />
     <Folder Include="Data Structures\Linked Lists\" />
