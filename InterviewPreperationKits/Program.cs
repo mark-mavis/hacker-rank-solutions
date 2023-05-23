@@ -17,7 +17,8 @@ namespace Application
             //Week1Client.Day2Client.CountingSort();
             //Week1Client.Day2Client.MockTest();
             //Week1Client.Day3Client.ZigZagSequence();
-            Week1Client.SkillCertificationClient.RunQuestion01();
+            //Week1Client.SkillCertificationClient.RunQuestion01();
+            Week1Client.SkillCertificationClient.RunQuestion02();
 
         }
     }

@@ -249,6 +249,7 @@ namespace OneWeekPrepKit
                     noOfPlayers += count;
                 }
                 public bool RemovePlayer(int count){
+                    
                     if(noOfPlayers >= count){
                         noOfPlayers -= count;
                         return true;
@@ -394,6 +395,42 @@ namespace OneWeekPrepKit
                 Console.WriteLine("Press Enter to Shutdown");
                 Console.ReadLine();
             }
+
+            public static void RunQuestion02(){
+                if(!typeof(Week1.SkillCertification.SubTeam).IsSubclassOf(typeof(Week1.SkillCertification.Team))){
+                    throw new Exception("Subteam class should inherit from Team class");
+                }
+                String str = Console.ReadLine();
+                String[] strArr = str.Split();
+                string initialName = strArr[0];
+                int count = Convert.ToInt32(strArr[1]);
+                Week1.SkillCertification.SubTeam teamObj = new Week1.SkillCertification.SubTeam(initialName, count);
+                Console.WriteLine("Team " + teamObj.teamName + " created");
+
+                str = Console.ReadLine();
+                count = Convert.ToInt32(str);
+                Console.WriteLine("Current number of players in team " + teamObj.teamName + " is " + teamObj.noOfPlayers);
+                teamObj.AddPlayer(count);
+                Console.WriteLine("New number of players in team " + teamObj.teamName + " is " + teamObj.noOfPlayers);
+
+                str = Console.ReadLine();
+                count = Convert.ToInt32(str);
+                Console.WriteLine("Current number of players in team " + teamObj.teamName + " is " + teamObj.noOfPlayers);
+                var res = teamObj.RemovePlayer(count);
+                if(res) {
+                    Console.WriteLine("New number of players in team " + teamObj.teamName + " is " + teamObj.noOfPlayers);
+                }else{
+                    Console.WriteLine("Number of players in team " + teamObj.teamName + " remains same");
+                }
+
+                str = Console.ReadLine();
+                teamObj.ChangeTeamName(str);
+                Console.WriteLine("Team name of team " + initialName + " changed to " + teamObj.teamName);
+                Console.ReadLine();
+                
+                
+            }
+        
         }
     }
 }
